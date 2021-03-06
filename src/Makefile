@@ -1,4 +1,4 @@
-# copiles everzthing including profiling program
+# copiles everything including profiling program
 all:
 	
 # makes the final package
@@ -12,6 +12,7 @@ test:
 	
 # generates the documentation
 doc:
+	doxygen Doxyfile
 	
 # runs the program
 run:
