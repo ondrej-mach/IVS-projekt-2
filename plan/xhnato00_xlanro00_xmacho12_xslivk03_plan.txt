@@ -1,1 +1,21 @@
 Placeholder for the plan of the project
+1. Termíny:
+	18.3.2021 - odeslání tohoto souboru?
+2. Přidělené úkoly: 
+	viz. přiložená tabulka(Google tabulky)
+3. Zvolený komunikační kanál:
+	Discord server s více členěnými tématickými kanály.
+4. Stanovená pravidla pro komunikaci:
+	a)Reakce na příchozí komunikaci do 1 týdne přijetí.
+	b)Komunikace v českém/slovenském jazyce, komentáře ve zdrojovém kódu v anglickém jazyce.
+	c)Žádné vulgarismy.
+	d)
+5. Zvolený systém pro správu verzí:
+	Github
+6. Zvolený operační systém:
+	Linux(Ubuntu)
+7. Zvolený programovací jazyk:
+	Python 3
+8. Zvolený grafický framework:
+	Qt
+9. Zvolený IDE:
