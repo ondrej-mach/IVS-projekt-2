@@ -1,4 +1,3 @@
-Placeholder for the plan of the project
 1. Termíny:
 	18.3.2021 - odeslání tohoto souboru?
 2. Přidělené úkoly: 
@@ -9,7 +8,6 @@ Placeholder for the plan of the project
 	a)Reakce na příchozí komunikaci do 1 týdne přijetí.
 	b)Komunikace v českém/slovenském jazyce, komentáře ve zdrojovém kódu v anglickém jazyce.
 	c)Žádné vulgarismy.
-	d)
 5. Zvolený systém pro správu verzí:
 	Github
 6. Zvolený operační systém:
@@ -19,3 +17,4 @@ Placeholder for the plan of the project
 8. Zvolený grafický framework:
 	Qt
 9. Zvolený IDE:
+	PyCharm
