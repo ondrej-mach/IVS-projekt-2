@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Unittests in tests_math_library.py" type="tests" factoryName="Unittests" nameIsGenerated="true">
+  <configuration default="false" name="Math library tests" type="tests" factoryName="Unittests">
     <module name="IVS-projekt-2" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
