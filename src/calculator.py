@@ -1,8 +1,8 @@
 import math_library
-import sys
 from PyQt5 import QtWidgets, uic
 
-class Window(QtWidgets.QMainWindow):
+
+class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         """Binds the keys to the buttons on the screen
 
@@ -10,9 +10,11 @@ class Window(QtWidgets.QMainWindow):
         It loads the layout from ui file.
         Then it sets keyboard shortcuts and shows the window.
         """
-        super(Window, self).__init__()
+        super().__init__()
+        self.setWindowTitle('Calculator')
         uic.loadUi('calculator.ui', self)
         self.setShortcuts()
+
         self.resultBox.setText('Hello There') # delete later TODO
         self.show()
 
@@ -21,21 +23,27 @@ class Window(QtWidgets.QMainWindow):
 
         """
         # using QShortcut to bind more keys to one button
-        for key in {'Enter', 'Return'}:
-            shortcut = QtWidgets.QShortcut(key, self.pushButtonEvaluate)
-            shortcut.activated.connect(self.pushButtonEvaluate.animateClick)
+        # tuples of button and set of extra shortcuts
+        extraShortcuts = [
+            (self.pushButtonEvaluate, ['Enter', 'Return']),
+            (self.pushButtonDecimalPoint, [',']),
+        ]
+        for button, keys in extraShortcuts:
+            for key in keys:
+                shortcut = QtWidgets.QShortcut(key, button)
+                shortcut.activated.connect(button.animateClick)
 
-        self.pushButtonNumber0.setShortcut('0')
-        self.pushButtonNumber1.setShortcut('1')
-        self.pushButtonNumber2.setShortcut('2')
-        self.pushButtonNumber3.setShortcut('3')
-        self.pushButtonNumber4.setShortcut('4')
-        self.pushButtonNumber5.setShortcut('5')
-        self.pushButtonNumber6.setShortcut('6')
-        self.pushButtonNumber7.setShortcut('7')
-        self.pushButtonNumber8.setShortcut('8')
-        self.pushButtonNumber9.setShortcut('9')
+        # bind all the buttons to their keys
+        buttons = self.findChildren(QtWidgets.QPushButton)
+        print(f'All buttons: {buttons}')
 
-app = QtWidgets.QApplication(sys.argv)
-window = Window()
+        for button in buttons:
+            shortcut = button.text()
+            button.setShortcut(shortcut)
+
+
+
+app = QtWidgets.QApplication([])
+window = MainWindow()
+
 app.exec_()
