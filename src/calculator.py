@@ -4,6 +4,13 @@ from PyQt5 import QtWidgets, uic
 from functools import partial
 import enum
 
+from os import path
+import sys
+
+# After packing everything into one executable, we have to find the ui file
+bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
+path_to_ui = path.abspath(path.join(bundle_dir, 'calculator.ui'))
+
 class Workspace:
     class State(enum.Enum):
         TAKING_FIRST = 1
@@ -98,7 +105,7 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         super().__init__()
         self.setWindowTitle('Calculator')
-        uic.loadUi('calculator.ui', self)
+        uic.loadUi(path_to_ui, self)
 
         # print function is the argument of constructor
         self.workspace = Workspace(self.resultBox.setText)

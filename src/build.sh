@@ -8,5 +8,6 @@ pyinstaller calculator.py \
     --add-data='calculator.ui:.' \
     --icon='icon.png' \
     --upx-dir=/usr/local/share/ \
+    --onefile
 
 deactivate
