@@ -17,12 +17,12 @@ def divide(a, b):
 
 
 def factorial(a):
-    if a<0:
+    if a < 0:
         raise TypeError("Calling factorial of number below 0")
     if not type(a) is int:
         raise TypeError("Calling factorial of non-integer number")
     product = 1
-    for i in range (1,a+1):
+    for i in range(1, a+1):
         product = product * i
     return product
 
@@ -56,4 +56,3 @@ def cosine():
 
 def tangent():
     return
-
