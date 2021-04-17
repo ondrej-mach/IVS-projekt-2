@@ -31,8 +31,17 @@ def sqrt():
     return
 
 
-def exponent():
-    return
+def exponent(a, b):
+    if b < 0:
+        raise TypeError("Raising number to the power lower than 0")
+    if not type(b) is int:
+        raise TypeError("Raising number to the non-integer number")
+    product = 1
+    if a == 0 and b == 0:
+        raise Exception("Raising 0 to the power of 0 is undefined")
+    for i in range(0, b):
+        product = product * a
+    return product
 
 
 def absolute(x):
