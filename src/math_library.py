@@ -16,8 +16,15 @@ def divide(a, b):
     return a / b
 
 
-def factorial():
-    return
+def factorial(a):
+    if a<0:
+        raise TypeError("Calling factorial of number below 0")
+    if not type(a) is int:
+        raise TypeError("Calling factorial of non-integer number")
+    product = 1
+    for i in range (1,a+1):
+        product = product * i
+    return product
 
 
 def sqrt():
