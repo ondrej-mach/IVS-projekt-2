@@ -121,26 +121,26 @@ class TestLogartihm(unittest.TestCase):
 class TestSine(unittest.TestCase):
 
     def test_sine(self):
-        self.assertAlmostEqual(math_library.sine(5), 0.0871557, delta=PRECISION)
-        self.assertAlmostEqual(math_library.sine(100), 0.9848077, delta=PRECISION)
-        self.assertAlmostEqual(math_library.sine(-5), 0.0871557, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(5), -0.9589242, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(100), -0.5063656, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(-5), 0.9589242, delta=PRECISION)
         self.assertAlmostEqual(math_library.sine(0), 0, delta=PRECISION)
 
 
 class TestCosine(unittest.TestCase):
 
     def test_cosine(self):
-        self.assertAlmostEqual(math_library.cosine(5), 0.9961946, delta=PRECISION)
-        self.assertAlmostEqual(math_library.cosine(100), -0.173648, delta=PRECISION)
-        self.assertAlmostEqual(math_library.cosine(-5), 0.9961946, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(5), 0.2836621, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(100), 0.8623188, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(-5), 0.2836621, delta=PRECISION)
         self.assertAlmostEqual(math_library.cosine(0), 1, delta=PRECISION)
 
 class TestTangent(unittest.TestCase):
 
     def test_tangent(self):
-        self.assertAlmostEqual(math_library.tangent(5), 0.0874886, delta=PRECISION)
-        self.assertAlmostEqual(math_library.tangent(100), -5.6712818, delta=PRECISION)
-        self.assertAlmostEqual(math_library.tangent(-5), -0.0874886, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(5), -3.3805150, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(100), -0.5872139, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(-5), 3.3805150, delta=PRECISION)
         self.assertAlmostEqual(math_library.tangent(0), 0, delta=PRECISION)
 
 
