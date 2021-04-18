@@ -83,6 +83,12 @@ class Workspace:
         elif self.operator == '/':
             result = mlib.divide(op0, op1)
 
+        elif self.operator == '!':
+            result = mlib.factorial(op0)
+
+        elif self.operator == '^':
+            result = mlib.exponentiate(op0, op1)
+
         else:
             raise Exception('Unknown operator')
 
