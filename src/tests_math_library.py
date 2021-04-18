@@ -5,7 +5,7 @@ import unittest
 class TestAddition(unittest.TestCase):
 
     def test_add_two(self):
-        self.assertEqual(math_library.add(1, 2), 4, )
+        self.assertEqual(math_library.add(1, 2), 3)
 
     def test_add_more(self):
         self.assertEqual(math_library.add(1, 4, 8, 10, 2, -3), 22)

@@ -1,19 +1,30 @@
 
 
-def add(a, b):
-    return a + b
+def add(*argv):
+    result = 0
+    for n in argv:
+        result += float(n)
+    return result
 
 
-def subtract(a, b):
-    return a - b
+def subtract(a, *argv):
+    for n in argv:
+        a -= float(n)
+    return a
 
 
-def multiply(a, b):
-    return a * b
+def multiply(*argv):
+    result = 1
+    for n in argv:
+        result *= float(n)
+    return result
 
 
-def divide(a, b):
-    return a / b
+def divide(a, *argv):
+    result = a
+    for n in argv:
+        result /= float(n)
+    return result
 
 
 def factorial(a):
