@@ -11,6 +11,7 @@ import sys
 bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
 path_to_ui = path.abspath(path.join(bundle_dir, 'calculator.ui'))
 
+
 class Workspace:
     class State(enum.Enum):
         TAKING_FIRST = 1
@@ -25,7 +26,7 @@ class Workspace:
 
     def readNew(self, symbol):
         # finite state machine
-        operators = list('+-*/')
+        operators = list(("+", "-", "*", "/", "!", "r", "^", "a", "l", "s", "c", "t"))
 
         if self.state == self.State.TAKING_FIRST:
             if symbol == '=':
@@ -67,7 +68,6 @@ class Workspace:
         self.show()
 
     def compute(self):
-        result = ''
         op0 = float(self.operands[0])
         op1 = float(self.operands[1])
 
@@ -86,8 +86,26 @@ class Workspace:
         elif self.operator == '!':
             result = mlib.factorial(op0)
 
+        elif self.operator == 'r':
+            result = mlib.root(op0, op1)
+
         elif self.operator == '^':
             result = mlib.exponentiate(op0, op1)
+
+        elif self.operator == 'a':
+            result = mlib.absolute(op0)
+
+        elif self.operator == 'l':
+            result = mlib.logarithm(op0, op1)
+
+        elif self.operator == 's':
+            result = mlib.sine(op0)
+
+        elif self.operator == 'c':
+            result = mlib.cosine(op0)
+
+        elif self.operator == 't':
+            result = mlib.tangent(op0)
 
         else:
             raise Exception('Unknown operator')
@@ -97,8 +115,6 @@ class Workspace:
 
     def show(self):
         self.printFn(f'{self.operands[0]} {self.operator} {self.operands[1]}')
-
-
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -150,9 +166,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         """
         buttons = self.findChildren(QtWidgets.QPushButton)
-
-        def onClick(str):
-            print(f'clicked: {str}')
 
         for button in buttons:
             symbol = button.text()
