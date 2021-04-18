@@ -1,6 +1,7 @@
 import math_library
 import unittest
 
+PRECISION = 1e-5
 
 class TestAddition(unittest.TestCase):
 
@@ -11,7 +12,7 @@ class TestAddition(unittest.TestCase):
         self.assertEqual(math_library.add(1, 4, 8, 10, 2, -3), 22)
 
     def test_add_two_float(self):
-        self.assertEqual(math_library.add(1.3, 1.4), 2.7)
+        self.assertAlmostEqual(math_library.add(1.3, 1.4), 2.7, delta=PRECISION)
 
 class TestSubtraction(unittest.TestCase):
 
@@ -22,7 +23,7 @@ class TestSubtraction(unittest.TestCase):
         self.assertEqual(math_library.subtract(15, 4, 2, 1, -3), 11)
 
     def test_sub_two_float(self):
-        self.assertEqual(math_library.subtract(4.8, 3.2), 1.6)
+        self.assertAlmostEqual(math_library.subtract(4.8, 3.2), 1.6, delta=PRECISION)
 
 class TestDivision(unittest.TestCase):
 
@@ -34,7 +35,7 @@ class TestDivision(unittest.TestCase):
         self.assertEqual(math_library.divide(16, 2, 4), 2)
 
     def test_div_two_float(self):
-        self.assertAlmostEqual(math_library.divide(5, 3), 1.6666667, delta=0.00001)
+        self.assertAlmostEqual(math_library.divide(5, 3), 1.6666667, delta=PRECISION)
 
 class TestMultiplication(unittest.TestCase):
 
@@ -47,7 +48,7 @@ class TestMultiplication(unittest.TestCase):
         self.assertEqual(math_library.multiply(3, 4, -4), -48)
 
     def test_mul_two_float(self):
-        self.assertEqual(math_library.multiply(4.3, 2.6), 11.18)
+        self.assertAlmostEqual(math_library.multiply(4.3, 2.6), 11.18, delta=PRECISION)
 
 
 class TestFactorial(unittest.TestCase):
@@ -55,22 +56,26 @@ class TestFactorial(unittest.TestCase):
         self.assertEqual(math_library.factorial(4), 24)
 
     def test_incorrect_factorial(self):
-        self.assertEqual(math_library.factorial(-3), None)
-        self.assertEqual(math_library.factorial(3.3), None)
+        with self.assertRaises(Exception):
+            math_library.factorial(-3)
+        with self.assertRaises(Exception):
+            math_library.factorial(3.3)
 
-class TestSqrt(unittest.TestCase):
+class TestRoot(unittest.TestCase):
 
-    def test_2sqrt(self):
+    def test_sqrt(self):
         self.assertEqual(math_library.root(4, 2), 2)
-        #self.assertEqual(math_library.root(-2), None) TODO should make exception
+        with self.assertRaises(Exception):
+            math_library.root(-2)
 
-    def test_bigger_sqrt(self):
+    def test_higher_root(self):
         self.assertEqual(math_library.root(16, 4), 2)
         self.assertEqual(math_library.root(8, 3), 2)
-        #self.assertEqual(math_library.root(-8, 3), None)
+        with self.assertRaises(Exception):
+            math_library.root(-8, 4)
 
-    def test_float_sqrt(self):
-        self.assertAlmostEqual(math_library.root(8.8, 2), 2.96647, delta=0.00001)
+    def test_float_root(self):
+        self.assertAlmostEqual(math_library.root(8.8, 2), 2.96647, delta=PRECISION)
 
 
 class TestExponent(unittest.TestCase):
@@ -85,8 +90,8 @@ class TestExponent(unittest.TestCase):
         self.assertEqual(math_library.exponentiate(2, 5), 32)
 
     def test_float_exponent(self):
-        self.assertAlmostEqual(math_library.exponentiate(2.356, 2), 5.55073, delta=0.00001)
-        self.assertAlmostEqual(math_library.exponentiate(2.356, 4), 30.81067, delta=0.00001)
+        self.assertAlmostEqual(math_library.exponentiate(2.356, 2), 5.55073, delta=PRECISION)
+        self.assertAlmostEqual(math_library.exponentiate(2.356, 4), 30.81067, delta=PRECISION)
 
 
 class TestAbs(unittest.TestCase):
@@ -101,9 +106,9 @@ class TestAbs(unittest.TestCase):
 class TestLogartihm(unittest.TestCase):
 
     def test_logarithm(self):
-        self.assertAlmostEqual(math_library.logarithm(4, 3), 1.26185, delta=0.00001)
-        self.assertAlmostEqual(math_library.logarithm(1, 10), 0, delta=0.00001)
-        self.assertAlmostEqual(math_library.logarithm(10, 5), 1.43067, delta=0.00001)
+        self.assertAlmostEqual(math_library.logarithm(4, 3), 1.26185, delta=PRECISION)
+        self.assertAlmostEqual(math_library.logarithm(1, 10), 0, delta=PRECISION)
+        self.assertAlmostEqual(math_library.logarithm(10, 5), 1.43067, delta=PRECISION)
 
     def test_wrong_logarithm(self):
         self.assertEqual(math_library.logarithm(3, 0), None)
@@ -116,27 +121,27 @@ class TestLogartihm(unittest.TestCase):
 class TestSine(unittest.TestCase):
 
     def test_sine(self):
-        self.assertAlmostEqual(math_library.sine(5), 0.0871557, delta=0.00001)
-        self.assertAlmostEqual(math_library.sine(100), 0.9848077, delta=0.00001)
-        self.assertAlmostEqual(math_library.sine(-5), 0.0871557, delta=0.00001)
-        self.assertAlmostEqual(math_library.sine(0), 0, delta=0.00001)
+        self.assertAlmostEqual(math_library.sine(5), 0.0871557, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(100), 0.9848077, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(-5), 0.0871557, delta=PRECISION)
+        self.assertAlmostEqual(math_library.sine(0), 0, delta=PRECISION)
 
 
 class TestCosine(unittest.TestCase):
 
     def test_cosine(self):
-        self.assertAlmostEqual(math_library.cosine(5), 0.9961946, delta=0.00001)
-        self.assertAlmostEqual(math_library.cosine(100), -0.173648, delta=0.00001)
-        self.assertAlmostEqual(math_library.cosine(-5), 0.9961946, delta=0.00001)
-        self.assertAlmostEqual(math_library.cosine(0), 1, delta=0.00001)
+        self.assertAlmostEqual(math_library.cosine(5), 0.9961946, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(100), -0.173648, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(-5), 0.9961946, delta=PRECISION)
+        self.assertAlmostEqual(math_library.cosine(0), 1, delta=PRECISION)
 
 class TestTangent(unittest.TestCase):
 
     def test_tangent(self):
-        self.assertAlmostEqual(math_library.tangent(5), 0.0874886, delta=0.00001)
-        self.assertAlmostEqual(math_library.tangent(100), -5.6712818, delta=0.00001)
-        self.assertAlmostEqual(math_library.tangent(-5), -0.0874886, delta=0.00001)
-        self.assertAlmostEqual(math_library.tangent(0), 0, delta=0.00001)
+        self.assertAlmostEqual(math_library.tangent(5), 0.0874886, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(100), -5.6712818, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(-5), -0.0874886, delta=PRECISION)
+        self.assertAlmostEqual(math_library.tangent(0), 0, delta=PRECISION)
 
 
 
