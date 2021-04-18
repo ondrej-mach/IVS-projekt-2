@@ -1,4 +1,8 @@
-
+##
+# @file math_library.py
+#
+# @brief Mathematical functions for the calculator
+#
 
 def add(*argv):
     result = 0

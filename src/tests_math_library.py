@@ -34,7 +34,7 @@ class TestDivision(unittest.TestCase):
         self.assertEqual(math_library.divide(16, 2, 4), 2)
 
     def test_div_two_float(self):
-        self.assertEqual(math_library.divide(5, 3), 1.667)
+        self.assertAlmostEqual(math_library.divide(5, 3), 1.6666667, delta=0.00001)
 
 class TestMultiplication(unittest.TestCase):
 
