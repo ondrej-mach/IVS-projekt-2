@@ -3,11 +3,11 @@ import sys
 
 _NUMBERS = []
 
-#if (len(sys.argv) != 2):
-  #  print(f'Usage: {sys.argv[0]} input_file')
- #   sys.exit(1)
-#with open(sys.argv[1], 'r') as file:
-with open('data.txt', 'r') as file:
+if (len(sys.argv) != 2):
+    print(f'Usage: {sys.argv[0]} input_file')
+    sys.exit(1)
+
+with open(sys.argv[1], 'r') as file:
     oread = file.readline()
     while oread != '':
         _NUMBERS = oread.split()
