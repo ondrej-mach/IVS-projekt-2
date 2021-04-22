@@ -8,6 +8,9 @@ class TestAddition(unittest.TestCase):
     def test_add_two(self):
         self.assertEqual(math_library.add(1, 2), 3)
 
+    def test_add_more(self):
+        self.assertEqual(math_library.add(1, 4, 8, 10, 2, -3), 22)
+
     def test_add_two_float(self):
         self.assertAlmostEqual(math_library.add(1.3, 1.4), 2.7, delta=PRECISION)
 
@@ -15,6 +18,9 @@ class TestSubtraction(unittest.TestCase):
 
     def test_sub_two(self):
         self.assertEqual(math_library.subtract(4, 3), 1)
+
+    def test_sub_more(self):
+        self.assertEqual(math_library.subtract(15, 4, 2, 1, -3), 11)
 
     def test_sub_two_float(self):
         self.assertAlmostEqual(math_library.subtract(4.8, 3.2), 1.6, delta=PRECISION)
@@ -25,6 +31,9 @@ class TestDivision(unittest.TestCase):
         self.assertEqual(math_library.divide(10, 2), 5)
         self.assertEqual(math_library.divide(-10, 2), -5)
 
+    def test_div_more(self):
+        self.assertEqual(math_library.divide(16, 2, 4), 2)
+
     def test_div_two_float(self):
         self.assertAlmostEqual(math_library.divide(5, 3), 1.6666667, delta=PRECISION)
 
@@ -33,6 +42,10 @@ class TestMultiplication(unittest.TestCase):
     def test_mul_two(self):
         self.assertEqual(math_library.multiply(2, 8), 16)
         self.assertEqual(math_library.multiply(-30, 2), -60)
+
+    def test_mul_more(self):
+        self.assertEqual(math_library.multiply(3, 4, 4), 48)
+        self.assertEqual(math_library.multiply(3, 4, -4), -48)
 
     def test_mul_two_float(self):
         self.assertAlmostEqual(math_library.multiply(4.3, 2.6), 11.18, delta=PRECISION)
@@ -98,10 +111,14 @@ class TestLogartihm(unittest.TestCase):
         self.assertAlmostEqual(math_library.logarithm(10, 5), 1.43067, delta=PRECISION)
 
     def test_wrong_logarithm(self):
-        self.assertEqual(math_library.logarithm(3, 0), None)
-        self.assertEqual(math_library.logarithm(10, 1), None)
-        self.assertEqual(math_library.logarithm(-10, 1), None)
-        self.assertEqual(math_library.logarithm(-1, 10), None)
+        with self.assertRaises(Exception):
+            math_library.logarithm(3, 0)
+        with self.assertRaises(Exception):
+            math_library.logarithm(10, 1)
+        with self.assertRaises(Exception):
+            math_library.logarithm(-10, 1)
+        with self.assertRaises(Exception):
+            math_library.logarithm(-1, 10)
 
 
 
