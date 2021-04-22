@@ -1,31 +1,18 @@
 import math_library as mlib
-import sys
 
-_NUMBERS = []
+avg = 0
 
-if (len(sys.argv) != 2):
-    print(f'Usage: {sys.argv[0]} input_file')
-    sys.exit(1)
+_NUMBERS = input().split()
+for i in _NUMBERS:
+    avg = mlib.add(avg, float(i))
 
-with open(sys.argv[1], 'r') as file:
-    oread = file.readline()
-    while oread != '':
-        _NUMBERS = oread.split()
+avg = mlib.divide(avg, len(_NUMBERS))
+s = 0
 
-        avg = 0
-        count = 0
-        for i in _NUMBERS:
-            avg = mlib.add(avg, float(i))
-            count += 1
+for i in _NUMBERS:
+    s = mlib.add(s, mlib.exponentiate(float(i), 2))
 
-        avg = mlib.divide(avg, count)
-        s = 0
-
-        for i in _NUMBERS:
-            s = mlib.add(s ,mlib.exponentiate(float(i), 2))
-
-        s = mlib.subtract(s, mlib.multiply(count, mlib.exponentiate(avg, 2)))
-        s = mlib.divide(s, mlib.subtract(count, 1))
-        s = mlib.root(s, 2)
-        print(s)
-        oread = file.readline()
+s = mlib.subtract(s, mlib.multiply(len(_NUMBERS), mlib.exponentiate(avg, 2)))
+s = mlib.divide(s, mlib.subtract(len(_NUMBERS), 1))
+s = mlib.root(s, 2)
+print(s)
