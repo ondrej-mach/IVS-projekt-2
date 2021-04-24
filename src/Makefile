@@ -1,27 +1,34 @@
 PACK_NAME=xlogin01_xlogin02_xlogin03_xlogin04
 PACK_DIR=../../$(PACK_NAME)
+EXECUTABLE=../dist/calculator
 
 # builds package using pyinstaller
 # python does not compile, so at least it does something
-all: ../dist/calculator
+all: $(EXECUTABLE)
 
-../dist/calculator:
+$(EXECUTABLE): venv
 	./build.sh
 
 # makes the final package
-pack: clean
+pack: doc $(EXECUTABLE)
 	# delete previous temporary files - if there are any
 	rm -rf $(PACK_DIR)
 	rm -rf $(PACK_DIR).zip
 
 	mkdir $(PACK_DIR)
 	mkdir $(PACK_DIR)/doc
-
+	cp -rf html/ $(PACK_DIR)/doc
 
 	mkdir $(PACK_DIR)/install
+	cp -f $(EXECUTABLE) $(PACK_DIR)/install/ivscalculator
+	cp -f calculator.desktop $(PACK_DIR)/install/ivscalculator.desktop
+	cp -f install.sh $(PACK_DIR)/install/install
+	cp -f icon.png $(PACK_DIR)/install/ivscalculator.png
+	cp -f uninstall.sh $(PACK_DIR)/install/ivscalculator-uninstall
 
+	make clean              # clean repository before zipping it
 	mkdir $(PACK_DIR)/repo
-	cp -r .. $(PACK_DIR)/repo
+	cp -rf .. $(PACK_DIR)/repo
 
 	cd ../../ && zip -r $(PACK_NAME).zip $(PACK_NAME)
 
@@ -29,9 +36,8 @@ pack: clean
 
 # removes all files, that should not be submitted
 clean:
-	rm -rf venv/
-	rm -rf html/
-	rm -rf latex/
+	rm -rf venv/ html/ latex/
+	rm -rf ../dist/ ../build/
 
 # runs the test for math library
 test:
@@ -50,8 +56,5 @@ run:
 # should compile profiling program
 profile:
 
-install:
-	./install.sh
-
-uninstall:
-	./uninstall.sh
+venv:
+	./venv-setup.sh
