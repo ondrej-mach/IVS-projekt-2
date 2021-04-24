@@ -111,10 +111,14 @@ class TestLogartihm(unittest.TestCase):
         self.assertAlmostEqual(math_library.logarithm(10, 5), 1.43067, delta=PRECISION)
 
     def test_wrong_logarithm(self):
-        self.assertEqual(math_library.logarithm(3, 0), None)
-        self.assertEqual(math_library.logarithm(10, 1), None)
-        self.assertEqual(math_library.logarithm(-10, 1), None)
-        self.assertEqual(math_library.logarithm(-1, 10), None)
+        with self.assertRaises(Exception):
+            math_library.logarithm(3, 0)
+        with self.assertRaises(Exception):
+            math_library.logarithm(10, 1)
+        with self.assertRaises(Exception):
+            math_library.logarithm(-10, 1)
+        with self.assertRaises(Exception):
+            math_library.logarithm(-1, 10)
 
 
 
