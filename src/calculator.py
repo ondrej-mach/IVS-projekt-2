@@ -140,7 +140,6 @@ class MainWindow(QtWidgets.QMainWindow):
     # pretty much fully working, solid code
     def setShortcuts(self):
         """Binds the keys to the buttons on the screen
-
         """
         # using QShortcut to bind more keys to one button
         # tuples of button and set of extra shortcuts
@@ -163,7 +162,6 @@ class MainWindow(QtWidgets.QMainWindow):
     # this might need to be rewritten
     def setActions(self):
         """Binds the keys to the buttons on the screen
-
         """
         buttons = self.findChildren(QtWidgets.QPushButton)
 
