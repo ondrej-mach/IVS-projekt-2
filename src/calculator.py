@@ -87,7 +87,7 @@ class Workspace:
             result = mlib.factorial(op0)
 
         elif self.operator == 'r':
-            result = mlib.root(op0, op1)
+            result = mlib.root(op1, op0)
 
         elif self.operator == '^':
             result = mlib.exponentiate(op0, op1)
@@ -110,11 +110,37 @@ class Workspace:
         else:
             raise Exception('Unknown operator')
 
+        result = round(result, 6)
+
+        # if result.is_integer():
+        #    result = int(result)
+
         self.operands = [str(result), '']
         self.operator = ''
 
     def show(self):
-        self.printFn(f'{self.operands[0]} {self.operator} {self.operands[1]}')
+        printedOperator = self.operator
+
+        if printedOperator == 'r':
+            printedOperator = '√'
+
+        elif printedOperator == '/':
+            printedOperator = '÷'
+
+        elif printedOperator == 's':
+            printedOperator = 'sin'
+
+        elif printedOperator == 'c':
+            printedOperator = 'cos'
+
+        elif printedOperator == 't':
+            printedOperator = 'tg'
+
+        elif printedOperator == 'l':
+            printedOperator = 'log'
+
+
+        self.printFn(f'{self.operands[0]} {printedOperator} {self.operands[1]}')
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -126,7 +152,7 @@ class MainWindow(QtWidgets.QMainWindow):
         Then it sets keyboard shortcuts and shows the window.
         """
         super().__init__()
-        self.setWindowTitle('Calculator')
+        #self.setWindowTitle('Calculator')
         uic.loadUi(path_to_ui, self)
 
         # print function is the argument of constructor
@@ -147,6 +173,7 @@ class MainWindow(QtWidgets.QMainWindow):
             (self.pushButtonEvaluate, ['Enter', 'Return']),
             (self.pushButtonDecimalPoint, [',']),
         ]
+
         for button, keys in extraShortcuts:
             for key in keys:
                 shortcut = QtWidgets.QShortcut(key, button)
@@ -154,6 +181,15 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # bind all the buttons to their keys
         buttons = self.findChildren(QtWidgets.QPushButton)
+
+        noShortcuts = [
+            self.pushButtonExponent,
+            self.pushButtonRoot,
+            self.pushButtonFactorial,
+        ]
+
+        for removedButton in noShortcuts:
+            buttons.remove(removedButton)
 
         for button in buttons:
             shortcut = button.text()
@@ -164,6 +200,18 @@ class MainWindow(QtWidgets.QMainWindow):
         """Binds the keys to the buttons on the screen
         """
         buttons = self.findChildren(QtWidgets.QPushButton)
+
+        specialButtons = [
+            (self.pushButtonExponent, '^'),
+            (self.pushButtonRoot, 'r'),
+            (self.pushButtonFactorial, '!'),
+            (self.pushButtonSinus, 's'),
+        ]
+
+        for button, symbol in specialButtons:
+            buttons.remove(button)
+            fnPartial = partial(lambda s: self.workspace.readNew(s), s=symbol)
+            button.clicked.connect(fnPartial)
 
         for button in buttons:
             symbol = button.text()
