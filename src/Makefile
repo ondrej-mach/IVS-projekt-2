@@ -1,9 +1,14 @@
+PACK_DIR = "xlogin01_xlogin02_xlogin03_xlogin04"
+
 # builds distributable package using pyinstaller
 all:
 	./build.sh
 
 # makes the final package
 pack:
+	rm -rf ../../$(PACK_DIR)
+	rm -rf ../../$(PACK_DIR).zip
+	zip -cvf archive
 
 
 # removes all files, that should not be submitted
@@ -28,11 +33,7 @@ run:
 profile:
 
 install:
-	cp -f ../dist/calculator /usr/bin/ivscalculator
-	cp -f icon.png /usr/share/pixmaps/ivscalculator.png
-	cp -f calculator.desktop /usr/share/applications/
+	./install.sh
 
 uninstall:
-	rm -f ../dist/calculator /usr/bin/ivscalculator
-	rm -f icon.png /usr/share/pixmaps/ivscalculator.png
-	rm -f calculator.desktop /usr/share/applications/
+	./uninstall.sh
