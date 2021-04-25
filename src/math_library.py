@@ -41,7 +41,7 @@ def factorial(num):
     """
     if num < 0:
         raise TypeError("Calling factorial of number below 0")
-    if not num.is_integer():
+    if not float(num).is_integer():
         raise TypeError("Calling factorial of non-integer number")
     num = int(num)
     product = 1
@@ -60,16 +60,17 @@ def root(radicand, index=2):
 
     if index < 1:
         raise TypeError("Calling root lower than 1")
-    if not radicand.is_integer():
+    if not float(index).is_integer():
         raise TypeError("Raising number to the non-integer number")
-    radicand = int(radicand)
+    index = int(index)
+
     if index % 2 == 0 and radicand < 0:
         raise Exception("Calling even root of negative number.")
     if radicand == 0 or radicand == 1 or radicand == -1:
         return radicand
     aprox = (absolute(radicand) + 1) / 2
     delta = (absolute(radicand) + 1) / 4
-    for i in range(0, 64):
+    for i in range(64):
         if exponentiate(aprox, index) == absolute(radicand):
             break
         if exponentiate(aprox, index) > absolute(radicand):
@@ -92,13 +93,13 @@ def exponentiate(base, exponent):
     """
     if exponent < 0:
         raise TypeError("Raising number to the power lower than 0")
-    if not exponent.is_integer():
+    if not float(exponent).is_integer():
         raise TypeError("Raising number to the non-integer number")
     exponent = int(exponent)
     product = 1
     if base == 0 and exponent == 0:
         raise Exception("Raising 0 to the power of 0 is undefined")
-    for i in range(0, exponent):
+    for i in range(exponent):
         product = product * base
     return product
 
