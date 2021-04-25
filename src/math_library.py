@@ -5,7 +5,10 @@
 # Global Constant
 ##  Pi number
 PI = 3.14159265358979323846264338327950288419716939937510
+E = 2.71828182845904523536028747135266249775724709369995
 
+# global variable to work as epsilon when approximating
+PRECISION = 1e-9
 
 def add(*argv):
     result = 0
@@ -49,40 +52,43 @@ def factorial(num):
         product = product * i
     return product
 
-
-def root(radicand, index=2):
+def sqrt(radicand, precision=PRECISION):
     """! Calculates n-th root of a number
     root is calculated with bisection method
     @param radicand Root of this number is calculated
     @param index The index of root. Implied value is 2 (square root)
     @return The index-th root of radicand
     """
+    oldApprox = 0
+    newApprox = radicand
 
-    if index < 1:
-        raise TypeError("Calling root lower than 1")
-    if not float(index).is_integer():
-        raise TypeError("Raising number to the non-integer number")
-    index = int(index)
+    while abs(newApprox - oldApprox) > precision:
+        oldApprox = newApprox
+        fx = oldApprox*oldApprox - radicand
+        dfx = 2 * oldApprox
+        newApprox = oldApprox - fx / dfx
 
-    if index % 2 == 0 and radicand < 0:
-        raise Exception("Calling even root of negative number.")
-    if radicand == 0 or radicand == 1 or radicand == -1:
-        return radicand
-    aprox = (absolute(radicand) + 1) / 2
-    delta = (absolute(radicand) + 1) / 4
-    for i in range(64):
-        if exponentiate(aprox, index) == absolute(radicand):
-            break
-        if exponentiate(aprox, index) > absolute(radicand):
-            aprox = aprox-delta
-        else:
-            aprox = aprox+delta
-        delta = delta/2
-    if radicand < 0:
-        return -aprox
-    if radicand > 0:
-        return aprox
+    return newApprox
 
+def intExponentiate(base, exponent):
+    if not float(exponent).is_integer():
+        Exception("Cannot raise a negative number")
+
+    exponent = int(exponent)
+
+    inverse = False
+    if exponent < 0:
+        inverse = True
+        exponent = -exponent
+
+    result = 1
+    for i in range(exponent):
+        result *= base
+
+    if inverse:
+        result = 1 / result
+
+    return result
 
 def exponentiate(base, exponent):
     """! Calculates n-th power of a number
@@ -91,17 +97,61 @@ def exponentiate(base, exponent):
     @param exponent The exponent of number. Exponent must be integer greater than 0
     @return The n-th power of base number
     """
+    if float(exponent).is_integer():
+        num = int(base)
+        return intExponentiate(base, exponent)
+
+    if base < 0:
+        raise Exception("Cannot raise a negative number")
+
+    inverse = False
     if exponent < 0:
-        raise TypeError("Raising number to the power lower than 0")
-    if not float(exponent).is_integer():
-        raise TypeError("Raising number to the non-integer number")
-    exponent = int(exponent)
-    product = 1
-    if base == 0 and exponent == 0:
-        raise Exception("Raising 0 to the power of 0 is undefined")
-    for i in range(exponent):
-        product = product * base
-    return product
+        inverse = True
+        exponent = -exponent
+
+    # exponentiates the base to the power of (two to the power of exp)
+    # exponent is int, base is float
+    def expByTwoToPower(base, exp):
+        result = base
+
+        if exp >= 0:
+            for i in range(exp):
+                result = result * result
+            return result
+
+        exp = -exp
+        for i in range(exp):
+            result = sqrt(result)
+        return result
+
+    # fraction will be expanded by 2^5
+    expand = 50
+
+    numerator = int(exponent * 2 ** expand)
+    result = 1
+    # start from the last place of the binary number
+    currentPlace = -expand
+
+    while numerator != 0:
+        if numerator & 1:
+            result *= expByTwoToPower(base, currentPlace)
+
+        numerator >>= 1
+        currentPlace += 1
+
+    if inverse:
+        return 1 / result
+
+    return result
+
+def root(radicand, index=2):
+    """! Calculates n-th root of a number
+    root is calculated with bisection method
+    @param radicand Root of this number is calculated
+    @param index The index of root. Implied value is 2 (square root)
+    @return The index-th root of radicand
+    """
+    return exponentiate(radicand, 1 / index)
 
 
 def absolute(x):
@@ -111,8 +161,38 @@ def absolute(x):
         return x
 
 
-def logarithm(argument, base=10):
-    return argument
+def logarithm(argument, base=10, precision=PRECISION):
+    """! Calculates logarithm using bisection method
+
+    """
+    if argument <= 0 or base <=0:
+        raise Exception("Outside of defined range")
+
+    if base == 1:
+        raise Exception('base of logarithm cannot be 1')
+
+    invert = False
+    if base < 1:
+        invert = True
+
+    start = 0
+    end = argument
+
+    while abs(start - end) > precision:
+        midpoint = (start + end) / 2
+        value = exponentiate(base, midpoint)
+
+        if value > argument:
+            end = midpoint
+        elif value < argument:
+            start = midpoint
+        else:
+            break
+
+    result = (start + end) / 2
+    if invert:
+        return -result
+    return result
 
 
 def sine(num):

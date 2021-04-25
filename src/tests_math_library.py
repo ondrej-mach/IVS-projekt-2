@@ -69,8 +69,8 @@ class TestRoot(unittest.TestCase):
             math_library.root(-2)
 
     def test_higher_root(self):
-        self.assertEqual(math_library.root(16, 4), 2)
-        self.assertEqual(math_library.root(8, 3), 2)
+        self.assertAlmostEqual(math_library.root(16, 4), 2, delta=PRECISION)
+        self.assertAlmostEqual(math_library.root(8, 3), 2, delta=PRECISION)
         with self.assertRaises(Exception):
             math_library.root(-8, 4)
 
