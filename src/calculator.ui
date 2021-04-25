@@ -4225,7 +4225,7 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButtonClearEverything">
+        <widget class="QPushButton" name="pushButtonClearEntry">
          <property name="enabled">
           <bool>true</bool>
          </property>
