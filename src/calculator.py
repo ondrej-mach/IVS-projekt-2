@@ -79,7 +79,6 @@ class Workspace:
                 if not self.operator == '':
                     self.operator = ''
 
-                # deletes last numeral
                 elif not self.firstOperand == '':
                     self.firstOperand = self.firstOperand[:-1]
 
@@ -119,12 +118,14 @@ class Workspace:
                 self.compute()
                 self.state = self.State.SHOWING_RESULT
 
+            elif symbol == '-' and self.secondOperand == '':
+                self.secondOperand = symbol
+
             elif symbol == 'C':
                 self.clear()
                 self.state = self.State.TAKING_FIRST
 
             elif symbol == 'CE':
-                # deletes last numeral
                 if not self.secondOperand == '':
                     self.secondOperand = self.secondOperand[:-1]
 
@@ -132,7 +133,6 @@ class Workspace:
                     self.operator = ''
                     self.state = self.State.TAKING_FIRST
 
-                # deletes last numeral
                 elif not self.firstOperand == '':
                     self.firstOperand = self.firstOperand[:-1]
                     self.state = self.State.TAKING_FIRST
@@ -201,7 +201,7 @@ class Workspace:
 
         result = round(result, 6)
 
-        if float(result.is_integer()):
+        if float(result).is_integer():
             result = int(result)
 
         self.firstOperand = str(result)

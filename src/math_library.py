@@ -5,6 +5,7 @@
 # Global Constant
 ##  Pi number
 PI = 3.14159265358979323846264338327950288419716939937510
+##  Euler number
 E = 2.71828182845904523536028747135266249775724709369995
 
 # global variable to work as epsilon when approximating
@@ -33,6 +34,8 @@ def multiply(*argv):
 def divide(a, *argv):
     result = a
     for n in argv:
+        if n == 0:
+            raise TypeError("Calling division with divisor 0")
         result /= float(n)
     return result
 
@@ -44,6 +47,8 @@ def factorial(num):
     """
     if num < 0:
         raise TypeError("Calling factorial of number below 0")
+    if num > 170:
+        raise TypeError("Calling factorial of number above 170")
     if not float(num).is_integer():
         raise TypeError("Calling factorial of non-integer number")
     num = int(num)
@@ -72,7 +77,7 @@ def sqrt(radicand, precision=PRECISION):
 
 def intExponentiate(base, exponent):
     if not float(exponent).is_integer():
-        Exception("Cannot raise a negative number")
+        Exception("Cannot raise a number to the power of a negative number")
 
     exponent = int(exponent)
 
@@ -169,7 +174,7 @@ def logarithm(argument, base=10, precision=PRECISION):
         raise Exception("Outside of defined range")
 
     if base == 1:
-        raise Exception('base of logarithm cannot be 1')
+        raise Exception('Base of logarithm cannot be 1')
 
     invert = False
     if base < 1:
@@ -239,5 +244,5 @@ def tangent(num):
     @return The tangent of num
     """
     if absolute(num) % (PI*2) == PI/2:
-        raise Exception("Calling tangent of PI/2 results into dividing by zero")
+        raise Exception("Calling tangent of PI/2 results in dividing by zero")
     return sine(num)/cosine(num)
