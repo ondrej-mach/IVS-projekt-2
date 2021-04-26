@@ -44,6 +44,17 @@ class Workspace:
             'log': (mlib.logarithm, True),
         }
 
+        self.operatorMap = {
+            'r': '√',
+            '/': '÷',
+            '*': '×',
+        }
+
+        self.operandMap = {
+            'π': round(mlib.PI, 6),
+            'e': round(mlib.E, 6),
+        }
+
     def clear(self):
         self.operator = ''
         self.firstOperand = ''
@@ -81,14 +92,30 @@ class Workspace:
                     self.state = self.State.SHOWING_RESULT
 
             elif symbol in binaryOperators:
-                self.operator = symbol
-                self.state = self.State.TAKING_SECOND
+                legit = True
+                if self.firstOperand == '':
+                    if symbol == 'r':
+                        self.firstOperand = '2'
+                    elif symbol == 'log':
+                        self.firstOperand = '10'
+                    elif symbol == '^':
+                        self.firstOperand = 'e'
+                    else:
+                        legit = False
+                if legit:
+                    self.operator = symbol
+                    self.state = self.State.TAKING_SECOND
 
             else:
                 self.firstOperand += str(symbol)
 
         elif self.state == self.State.TAKING_SECOND:
             if symbol == '=':
+                if self.operator in binaryOperators and self.firstOperand == '':
+                    if self.operator == 'log':
+                        self.firstOperand = '10'
+                    elif self.operator == 'r':
+                        self.firstOperand = '2'
                 self.compute()
                 self.state = self.State.SHOWING_RESULT
 
@@ -112,6 +139,7 @@ class Workspace:
 
             elif symbol in unaryOperators:
                 raise Exception('Invalid combination of operators')
+            # maybe factorial exception
 
             elif symbol in binaryOperators:
                 pass
@@ -131,9 +159,7 @@ class Workspace:
             elif symbol == 'CE':
                 if not self.firstOperand == '':
                     self.firstOperand = self.firstOperand[:-1]
-
-                else:
-                    self.state = self.State.TAKING_FIRST
+                self.state = self.State.TAKING_FIRST
 
             elif symbol in unaryOperators:
                 self.operator = symbol
@@ -144,8 +170,8 @@ class Workspace:
                 self.state = self.State.TAKING_SECOND
 
             else:
-                self.state = self.State.TAKING_FIRST
                 self.firstOperand = str(symbol)
+                self.state = self.State.TAKING_FIRST
 
         else:
             raise Exception('Cannot calculate')
@@ -185,26 +211,14 @@ class Workspace:
     def show(self):
         printedOperator = self.operator
 
-        operatorMap = {
-            'r': '√',
-            '/': '÷',
-            '*': '×',
-        }
+        if printedOperator in self.operatorMap.keys():
+            printedOperator = self.operatorMap[printedOperator]
 
-        if printedOperator in operatorMap.keys():
-            printedOperator = operatorMap[printedOperator]
+        if self.firstOperand in self.operandMap.keys():
+            self.firstOperand = self.operandMap[self.firstOperand]
 
-        if self.firstOperand == 'π':
-            self.firstOperand = round(mlib.PI, 6)
-
-        if self.secondOperand == 'π':
-            self.secondOperand = round(mlib.PI, 6)
-
-        if self.firstOperand == 'e':
-            self.firstOperand = round(mlib.E, 6)
-
-        if self.secondOperand == 'e':
-            self.secondOperand = round(mlib.E, 6)
+        if self.secondOperand in self.operandMap.keys():
+            self.secondOperand = self.operandMap[self.secondOperand]
 
         self.printFn(f'{self.firstOperand} {printedOperator} {self.secondOperand}')
 
