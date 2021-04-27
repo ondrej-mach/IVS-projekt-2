@@ -1,25 +1,43 @@
+"""! @file calculator.py
+@brief Main file using math library and gui for the calculator
+"""
+
+# Importing math library.
 import math_library as mlib
 from PyQt5 import QtWidgets, uic
-#  to copy lambda functions
+
+# Copying lambda functions.
 from functools import partial
 import enum
 
+# Importing class UiHelpWindow from HelpWindow.py for the openHelp function.
 from HelpWindow import UiHelpWindow
+
+# Importing path for use in ui.
 from os import path
 import sys
 
-# After packing everything into one executable, we have to find the ui file
+# After packing everything into one executable, we have to find the ui file.
 bundle_dir = getattr(sys, '_MEIPASS', path.abspath(path.dirname(__file__)))
+# Path to a ui file created in QT Creator"""
 path_to_ui = path.abspath(path.join(bundle_dir, 'calculator.ui'))
 
 
 class Workspace:
+    """! Class containing methods working with finite state machine,
+    computing operations and printing output to display.
+    """
+
     class State(enum.Enum):
+        """! Class with states of the state machine are defined"""
         TAKING_FIRST = 1
         TAKING_SECOND = 2
         SHOWING_RESULT = 3
 
     def __init__(self, printFn):
+        """! Define and initialize operands and operators
+        Define other variables
+        """
         self.state = self.State.TAKING_FIRST
         self.firstOperand = ''
         self.firstOperand = ''
@@ -56,13 +74,19 @@ class Workspace:
             'e': round(mlib.E, 6),
         }
 
+
     def clear(self):
+        """! Clear operators and operands string."""
         self.operator = ''
         self.firstOperand = ''
         self.secondOperand = ''
 
+
     def readNew(self, symbol):
-        # finite state machine
+        """! Read input and process it, call function compute and show.
+        Using finite state machine principle.
+        """
+
         binaryOperators = self.binaryMap.keys()
         unaryOperators = self.unaryMap.keys()
 
@@ -194,36 +218,40 @@ class Workspace:
 
         self.show()
 
+
     def compute(self):
+        """! Call math library functions.
+        Save result to operationResult.
+        """
         try:
             op0 = float(self.firstOperand)
 
-            result = ''
+            operationResult = ''
             if self.operator in self.unaryMap.keys():
                 fn = self.unaryMap[self.operator]
-                result = fn(op0)
+                operationResult = fn(op0)
 
             elif self.operator in self.binaryMap.keys():
                 op1 = float(self.secondOperand)
                 fn = self.binaryMap[self.operator][0]
                 if self.binaryMap[self.operator][1]:
-                    result = fn(op1, op0)
+                    operationResult = fn(op1, op0)
 
                 else:
-                    result = fn(op0, op1)
+                    operationResult = fn(op0, op1)
 
             elif self.operator == '':
-                result = op0
+                operationResult = op0
 
             else:
                 raise Exception('Unknown operator')
 
-            result = round(result, 6)
+            operationResult = round(operationResult, 6)
 
-            if float(result).is_integer():
-                result = int(result)
+            if float(operationResult).is_integer():
+                operationResult = int(operationResult)
 
-            self.firstOperand = str(result)
+            self.firstOperand = str(operationResult)
             self.secondOperand = ''
             self.operator = ''
 
@@ -231,7 +259,11 @@ class Workspace:
             self.clear()
             self.firstOperand = 'Error'
 
+
     def show(self):
+        """! Determine what to print to resultBox.
+        Print the formatted string.
+        """
         printedOperator = self.operator
 
         if printedOperator in self.operatorMap.keys():
@@ -246,49 +278,64 @@ class Workspace:
         self.printFn(f'{self.firstOperand} {printedOperator} {self.secondOperand}')
 
 
-class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
-        """Binds the keys to the buttons on the screen
 
-        Initializes main window object.
-        It loads the layout from ui file.
-        Then it sets keyboard shortcuts and shows the window.
+class MainWindow(QtWidgets.QMainWindow):
+    """! Set keyboard shortcuts and show the main window.
+    """
+
+    def __init__(self):
+        """! Load the layout from ui filecreated in QT Creator.
+        Printing function setText is the argument of a constructor.
         """
         super().__init__()
 
         uic.loadUi(path_to_ui, self)
 
-        # print function is the argument of constructor
         self.workspace = Workspace(self.resultBox.setText)
         self.setupMenuBar()
-
         self.setShortcuts()
         self.setActions()
         self.show()
 
+
     def setupMenuBar(self):
+        """! Making the top left corner menu.
+        Binding shortcuts for opening tutorial and closing the application.
+        """
         self.actionHelp.setShortcut('F1')
         self.actionHelp.triggered.connect(self.openHelp)
 
         self.actionQuit.setShortcut('Ctrl+Q')
         self.actionQuit.triggered.connect(self.exitAplication)
 
+
     def exitAplication(self):
+        """! Closing the application.
+        Using shortcut Ctrl+Q.
+        """
         QtWidgets.qApp.quit()
 
+
     def openHelp(self):
+        """! Opening a new window with tutorial.
+        Using shortcut F1.
+        """
         self.helpWindow = UiHelpWindow()
         self.helpWindow.show()
 
-    # pretty much fully working, solid code
+
     def setShortcuts(self):
-        """Binds the keys to the buttons on the screen
+        """!Set shortcuts for different operators, operands.
+        Use QShortcut to bind more keys to one button.
+        Use tuples of buttons and set some extra shortcuts.
         """
-        # using QShortcut to bind more keys to one button
-        # tuples of button and set of extra shortcuts
+
         extraShortcuts = [
             (self.pushButtonEvaluate, ['Enter', 'Return']),
             (self.pushButtonDecimalPoint, [',']),
+            (self.pushButtonDelete, ['Delete', 'Backspace']),
+            (self.pushButtonMultiply, ['*']),
+            (self.pushButtonDivide, ['/']),
         ]
 
         for button, keys in extraShortcuts:
@@ -296,9 +343,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 shortcut = QtWidgets.QShortcut(key, button)
                 shortcut.activated.connect(button.animateClick)
 
-        # bind all the buttons to their keys
+        """! Bind all the buttons to their keys."""
         buttons = self.findChildren(QtWidgets.QPushButton)
 
+        """! Removed shortcuts to avoid unwanted behaviour."""
         noShortcuts = [
             self.pushButtonExponent,
             self.pushButtonRoot,
@@ -307,7 +355,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.pushButtonCosinus,
             self.pushButtonTangens,
             self.pushButtonClear,
-            self.pushButtonClearEntry,
+            self.pushButtonDelete,
         ]
 
         for removedButton in noShortcuts:
@@ -317,9 +365,11 @@ class MainWindow(QtWidgets.QMainWindow):
             shortcut = button.text()
             button.setShortcut(shortcut)
 
-    # this might need to be rewritten
+
     def setActions(self):
-        """Binds the keys to the buttons on the screen
+        """! Bind keys to the buttons on the screen.
+        Special buttons have one symbol displayed on calculator,
+        but here are used with a different one.
         """
         buttons = self.findChildren(QtWidgets.QPushButton)
 

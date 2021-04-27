@@ -1,17 +1,20 @@
-# @file math_library.py
-#
-# @brief Mathematical functions for the calculator
-#
+"""! @file math_library.py
+@brief Mathematical functions for the calculator
+"""
+
 # Global Constant
-##  Pi number
+# Pi number
 PI = 3.14159265358979323846264338327950288419716939937510
-##  Euler number
+
+# Euler number
 E = 2.71828182845904523536028747135266249775724709369995
 
-# global variable to work as epsilon when approximating
+# Global variable to work as epsilon when approximating.
 PRECISION = 1e-9
 
 def add(*argv):
+    """! Calculates sum of given numbers.
+    """
     result = 0
     for n in argv:
         result += float(n)
@@ -19,12 +22,16 @@ def add(*argv):
 
 
 def subtract(a, *argv):
+    """! Calculates difference of given numbers.
+    """
     for n in argv:
         a -= float(n)
     return a
 
 
 def multiply(*argv):
+    """! Calculates multiplicand of given numbers.
+    """
     result = 1
     for n in argv:
         result *= float(n)
@@ -32,6 +39,8 @@ def multiply(*argv):
 
 
 def divide(a, *argv):
+    """! Calculates quotient of given numbers.
+    """
     result = a
     for n in argv:
         result /= float(n)
@@ -158,6 +167,8 @@ def root(radicand, index=2):
 
 
 def absolute(x):
+    """! Returns absolute value of given number.
+    """
     if (x < 0):
         return -x
     else:
