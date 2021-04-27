@@ -4,6 +4,7 @@ from PyQt5 import QtWidgets, uic
 from functools import partial
 import enum
 
+from HelpWindow import UiHelpWindow
 from os import path
 import sys
 
@@ -67,7 +68,7 @@ class Workspace:
 
         if self.state == self.State.TAKING_FIRST:
             if symbol == '=':
-                pass
+                self.compute()
 
             elif symbol == '-' and self.firstOperand == '':
                 self.firstOperand = symbol
@@ -75,7 +76,7 @@ class Workspace:
             elif symbol == 'C':
                 self.clear()
 
-            elif symbol == 'CE':
+            elif symbol == 'DEL':
                 if not self.operator == '':
                     self.operator = ''
 
@@ -85,6 +86,7 @@ class Workspace:
             elif symbol in unaryOperators:
                 if self.firstOperand == '':
                     pass
+
                 else:
                     self.operator = symbol
                     self.compute()
@@ -92,6 +94,7 @@ class Workspace:
 
             elif symbol in binaryOperators:
                 legit = True
+
                 if self.firstOperand == '':
                     if symbol == 'r':
                         self.firstOperand = '2'
@@ -101,9 +104,16 @@ class Workspace:
                         self.firstOperand = 'e'
                     else:
                         legit = False
+
                 if legit:
                     self.operator = symbol
                     self.state = self.State.TAKING_SECOND
+
+            elif symbol in self.operandMap.keys() and not self.firstOperand == '':
+                if self.firstOperand == '-':
+                    self.firstOperand = str(self.firstOperand) + str(self.operandMap[symbol])
+                else:
+                    pass
 
             else:
                 self.firstOperand = str(self.firstOperand) + str(symbol)
@@ -125,7 +135,7 @@ class Workspace:
                 self.clear()
                 self.state = self.State.TAKING_FIRST
 
-            elif symbol == 'CE':
+            elif symbol == 'DEL':
                 if not self.secondOperand == '':
                     self.secondOperand = self.secondOperand[:-1]
 
@@ -143,8 +153,16 @@ class Workspace:
             elif symbol in binaryOperators:
                 pass
 
+            elif symbol in self.operandMap.keys() and not self.secondOperand == '':
+
+                if self.secondOperand == '-':
+                    self.secondOperand = str(self.secondOperand) + str(self.operandMap[symbol])
+
+                else:
+                    pass
+
             else:
-                self.secondOperand += str(symbol)
+                self.secondOperand = str(self.secondOperand) + str(symbol)
 
         elif self.state == self.State.SHOWING_RESULT:
             if symbol == '=':
@@ -154,7 +172,7 @@ class Workspace:
                 self.clear()
                 self.state = self.State.TAKING_FIRST
 
-            elif symbol == 'CE':
+            elif symbol == 'DEL':
                 if not self.firstOperand == '':
                     self.firstOperand = self.firstOperand[:-1]
                 self.state = self.State.TAKING_FIRST
@@ -194,6 +212,9 @@ class Workspace:
                 else:
                     result = fn(op0, op1)
 
+            elif self.operator == '':
+                result = op0
+
             else:
                 raise Exception('Unknown operator')
 
@@ -217,10 +238,10 @@ class Workspace:
             printedOperator = self.operatorMap[printedOperator]
 
         if self.firstOperand in self.operandMap.keys():
-            self.firstOperand = self.operandMap[self.firstOperand]
+            self.firstOperand = str(self.operandMap[self.firstOperand])
 
         if self.secondOperand in self.operandMap.keys():
-            self.secondOperand = self.operandMap[self.secondOperand]
+            self.secondOperand = str(self.operandMap[self.secondOperand])
 
         self.printFn(f'{self.firstOperand} {printedOperator} {self.secondOperand}')
 
@@ -235,17 +256,29 @@ class MainWindow(QtWidgets.QMainWindow):
         """
         super().__init__()
 
-        #self.setWindowTitle('Calculator')
-
         uic.loadUi(path_to_ui, self)
 
         # print function is the argument of constructor
         self.workspace = Workspace(self.resultBox.setText)
+        self.setupMenuBar()
 
         self.setShortcuts()
         self.setActions()
-
         self.show()
+
+    def setupMenuBar(self):
+        self.actionHelp.setShortcut('F1')
+        self.actionHelp.triggered.connect(self.openHelp)
+
+        self.actionQuit.setShortcut('Ctrl+Q')
+        self.actionQuit.triggered.connect(self.exitAplication)
+
+    def exitAplication(self):
+        QtWidgets.qApp.quit()
+
+    def openHelp(self):
+        self.helpWindow = UiHelpWindow()
+        self.helpWindow.show()
 
     # pretty much fully working, solid code
     def setShortcuts(self):

@@ -16,6 +16,18 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>570</width>
+    <height>750</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>570</width>
+    <height>750</height>
+   </size>
+  </property>
   <property name="palette">
    <palette>
     <active>
@@ -464,6 +476,12 @@
   <widget class="QWidget" name="centralwidget">
    <property name="enabled">
     <bool>true</bool>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>750</width>
+     <height>750</height>
+    </size>
    </property>
    <widget class="QWidget" name="verticalLayoutWidget">
     <property name="geometry">
@@ -4683,7 +4701,7 @@ p, li { white-space: pre-wrap; }
           </font>
          </property>
          <property name="text">
-          <string>CE</string>
+          <string>DEL</string>
          </property>
          <property name="autoDefault">
           <bool>false</bool>
@@ -14034,14 +14052,35 @@ p, li { white-space: pre-wrap; }
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuHelp">
+   <widget class="QMenu" name="menuFile">
     <property name="title">
-     <string>Help</string>
+     <string>File</string>
     </property>
-    <addaction name="separator"/>
+    <addaction name="actionHelp"/>
+    <addaction name="actionQuit"/>
    </widget>
-   <addaction name="menuHelp"/>
+   <addaction name="menuFile"/>
   </widget>
+  <action name="Help">
+   <property name="text">
+    <string>Nápověda</string>
+   </property>
+  </action>
+  <action name="actionNew">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="text">
+    <string>Help</string>
+   </property>
+  </action>
+  <action name="actionQuit">
+   <property name="text">
+    <string>Quit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
