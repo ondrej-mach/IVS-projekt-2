@@ -1,4 +1,4 @@
-PACK_NAME=xlogin01_xlogin02_xlogin03_xlogin04
+PACK_NAME=xhnato00_xlanro00_xmacho12_xslivk03
 PACK_DIR=../../$(PACK_NAME)
 EXECUTABLE=../dist/calculator
 
@@ -46,6 +46,7 @@ test:
 
 # generates the documentation
 doc:
+	rm -rf html/
 	doxygen Doxyfile
 	
 # runs the program
