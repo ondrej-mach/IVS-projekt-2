@@ -34,8 +34,6 @@ def multiply(*argv):
 def divide(a, *argv):
     result = a
     for n in argv:
-        if n == 0:
-            raise TypeError("Calling division with divisor 0")
         result /= float(n)
     return result
 
@@ -171,7 +169,7 @@ def logarithm(argument, base=10, precision=PRECISION):
 
     """
     if argument <= 0 or base <=0:
-        raise Exception("Outside of defined range")
+        raise Exception('Outside of defined range')
 
     if base == 1:
         raise Exception('Base of logarithm cannot be 1')
@@ -179,9 +177,10 @@ def logarithm(argument, base=10, precision=PRECISION):
     invert = False
     if base < 1:
         invert = True
+        base = 1 / base
 
-    start = 0
-    end = argument
+    end = max(argument, base)
+    start = -end
 
     while abs(start - end) > precision:
         midpoint = (start + end) / 2
@@ -195,6 +194,7 @@ def logarithm(argument, base=10, precision=PRECISION):
             break
 
     result = (start + end) / 2
+
     if invert:
         return -result
     return result

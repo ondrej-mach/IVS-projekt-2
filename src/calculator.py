@@ -106,7 +106,7 @@ class Workspace:
                     self.state = self.State.TAKING_SECOND
 
             else:
-                self.firstOperand += str(symbol)
+                self.firstOperand = str(self.firstOperand) + str(symbol)
 
         elif self.state == self.State.TAKING_SECOND:
             if symbol == '=':
@@ -138,12 +138,10 @@ class Workspace:
                     self.state = self.State.TAKING_FIRST
 
             elif symbol in unaryOperators:
-                raise Exception('Invalid combination of operators')
-            # maybe factorial exception
+                pass
 
             elif symbol in binaryOperators:
                 pass
-            # maybe
 
             else:
                 self.secondOperand += str(symbol)
@@ -174,39 +172,43 @@ class Workspace:
                 self.state = self.State.TAKING_FIRST
 
         else:
-            raise Exception('Cannot calculate')
+            raise Exception('Illegal state')
 
         self.show()
 
     def compute(self):
+        try:
+            op0 = float(self.firstOperand)
 
-        op0 = float(self.firstOperand)
+            result = ''
+            if self.operator in self.unaryMap.keys():
+                fn = self.unaryMap[self.operator]
+                result = fn(op0)
 
-        result = ''
-        if self.operator in self.unaryMap.keys():
-            fn = self.unaryMap[self.operator]
-            result = fn(op0)
+            elif self.operator in self.binaryMap.keys():
+                op1 = float(self.secondOperand)
+                fn = self.binaryMap[self.operator][0]
+                if self.binaryMap[self.operator][1]:
+                    result = fn(op1, op0)
 
-        elif self.operator in self.binaryMap.keys():
-            op1 = float(self.secondOperand)
-            fn = self.binaryMap[self.operator][0]
-            if self.binaryMap[self.operator][1]:
-                result = fn(op1, op0)
+                else:
+                    result = fn(op0, op1)
 
             else:
-                result = fn(op0, op1)
+                raise Exception('Unknown operator')
 
-        else:
-            raise Exception('Unknown operator')
+            result = round(result, 6)
 
-        result = round(result, 6)
+            if float(result).is_integer():
+                result = int(result)
 
-        if float(result).is_integer():
-            result = int(result)
+            self.firstOperand = str(result)
+            self.secondOperand = ''
+            self.operator = ''
 
-        self.firstOperand = str(result)
-        self.secondOperand = ''
-        self.operator = ''
+        except Exception:
+            self.clear()
+            self.firstOperand = 'Error'
 
     def show(self):
         printedOperator = self.operator
