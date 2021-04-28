@@ -1,5 +1,6 @@
 """! @file calculator.py
 @brief Main file using math library and gui for the calculator
+@author xhnato00, xlanro00, xmacho12, xslivk03
 """
 
 # Importing math library.
@@ -29,15 +30,17 @@ class Workspace:
     """
 
     class State(enum.Enum):
-        """! Class with states of the state machine are defined"""
+        """! Class where the states of the state machine are defined."""
+
         TAKING_FIRST = 1
         TAKING_SECOND = 2
         SHOWING_RESULT = 3
 
     def __init__(self, printFn):
-        """! Define and initialize operands and operators
-        Define other variables
+        """! Define and initialize operands and operators.
+        Define other variables.
         """
+
         self.state = self.State.TAKING_FIRST
         self.firstOperand = ''
         self.firstOperand = ''
@@ -77,13 +80,14 @@ class Workspace:
 
     def clear(self):
         """! Clear operators and operands string."""
+
         self.operator = ''
         self.firstOperand = ''
         self.secondOperand = ''
 
 
     def readNew(self, symbol):
-        """! Read input and process it, call function compute and show.
+        """! Read input and process it, call functions compute and show.
         Using finite state machine principle.
         """
 
@@ -220,13 +224,12 @@ class Workspace:
 
 
     def compute(self):
-        """! Call math library functions.
-        Save result to operationResult.
+        """! Read the operator and call corresponding math library function
         """
+
         try:
             op0 = float(self.firstOperand)
 
-            operationResult = ''
             if self.operator in self.unaryMap.keys():
                 fn = self.unaryMap[self.operator]
                 operationResult = fn(op0)
@@ -261,9 +264,9 @@ class Workspace:
 
 
     def show(self):
-        """! Determine what to print to resultBox.
-        Print the formatted string.
+        """! Display current state of the calculator using print function.
         """
+
         printedOperator = self.operator
 
         if printedOperator in self.operatorMap.keys():
@@ -280,17 +283,19 @@ class Workspace:
 
 
 class MainWindow(QtWidgets.QMainWindow):
-    """! Set keyboard shortcuts and show the main window.
+    """! Class of the main window.
+    Set keyboard shortcuts and actions.
+    Show the main window.
     """
 
     def __init__(self):
-        """! Load the layout from ui filecreated in QT Creator.
-        Printing function setText is the argument of a constructor.
+        """! Load the layout from the UI file created in QT Creator.
         """
         super().__init__()
 
         uic.loadUi(path_to_ui, self)
 
+        # Printing function setText is the argument of a constructor.
         self.workspace = Workspace(self.resultBox.setText)
         self.setupMenuBar()
         self.setShortcuts()
@@ -299,37 +304,37 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def setupMenuBar(self):
-        """! Making the top left corner menu.
-        Binding shortcuts for opening tutorial and closing the application.
+        """! Make the top left corner menu.
+        Bind shortcuts for opening tutorial and closing the application.
         """
+        # Using shortcut F1.
         self.actionHelp.setShortcut('F1')
         self.actionHelp.triggered.connect(self.openHelp)
 
+        # Using shortcut Ctrl+Q.
         self.actionQuit.setShortcut('Ctrl+Q')
         self.actionQuit.triggered.connect(self.exitAplication)
 
 
     def exitAplication(self):
-        """! Closing the application.
-        Using shortcut Ctrl+Q.
+        """! Close the application.
         """
         QtWidgets.qApp.quit()
 
 
     def openHelp(self):
         """! Opening a new window with tutorial.
-        Using shortcut F1.
         """
         self.helpWindow = UiHelpWindow()
         self.helpWindow.show()
 
 
     def setShortcuts(self):
-        """!Set shortcuts for different operators, operands.
+        """! Set shortcuts for different operators, operands.
         Use QShortcut to bind more keys to one button.
-        Use tuples of buttons and set some extra shortcuts.
         """
 
+        # Use tuples of buttons and set some extra shortcuts.
         extraShortcuts = [
             (self.pushButtonEvaluate, ['Enter', 'Return']),
             (self.pushButtonDecimalPoint, [',']),
@@ -343,10 +348,10 @@ class MainWindow(QtWidgets.QMainWindow):
                 shortcut = QtWidgets.QShortcut(key, button)
                 shortcut.activated.connect(button.animateClick)
 
-        """! Bind all the buttons to their keys."""
+        # Bind all the buttons to their keys.
         buttons = self.findChildren(QtWidgets.QPushButton)
 
-        """! Removed shortcuts to avoid unwanted behaviour."""
+        # Removed shortcuts to avoid unwanted behaviour.
         noShortcuts = [
             self.pushButtonExponent,
             self.pushButtonRoot,

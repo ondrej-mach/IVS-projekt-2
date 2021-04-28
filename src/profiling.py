@@ -1,3 +1,8 @@
+"""! @file profiling.py
+@brief Profiling tool calculating deviation using the math library
+@author xhnato00, xlanro00, xmacho12, xslivk03
+"""
+
 import math_library as mlib
 
 avg = 0
