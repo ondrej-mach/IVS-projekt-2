@@ -1,17 +1,21 @@
-# @file math_library.py
-#
-# @brief Mathematical functions for the calculator
-#
+"""! @file math_library.py
+@brief Mathematical functions for the calculator.
+@author xhnato00, xlanro00, xmacho12, xslivk03
+"""
+
 # Global Constant
-##  Pi number
+# Pi number
 PI = 3.14159265358979323846264338327950288419716939937510
-##  Euler number
+
+# Euler number
 E = 2.71828182845904523536028747135266249775724709369995
 
-# global variable to work as epsilon when approximating
+# Global variable to work as epsilon when approximating.
 PRECISION = 1e-9
 
 def add(*argv):
+    """! Calculates sum of given numbers.
+    """
     result = 0
     for n in argv:
         result += float(n)
@@ -19,12 +23,16 @@ def add(*argv):
 
 
 def subtract(a, *argv):
+    """! Calculates difference of given numbers.
+    """
     for n in argv:
         a -= float(n)
     return a
 
 
 def multiply(*argv):
+    """! Calculates multiplicand of given numbers.
+    """
     result = 1
     for n in argv:
         result *= float(n)
@@ -32,6 +40,8 @@ def multiply(*argv):
 
 
 def divide(a, *argv):
+    """! Calculates quotient of given numbers.
+    """
     result = a
     for n in argv:
         result /= float(n)
@@ -39,14 +49,12 @@ def divide(a, *argv):
 
 
 def factorial(num):
-    """! Calculates n-th factorial of a number
-    @param num Factorial of this number is calculated
-    @return The n-th factorial of num
+    """! Calculates n-th factorial of a number.
+    @param num Factorial of this number is calculated.
+    @return The n-th factorial of num.
     """
     if num < 0:
         raise TypeError("Calling factorial of number below 0")
-    if num > 170:
-        raise TypeError("Calling factorial of number above 170")
     if not float(num).is_integer():
         raise TypeError("Calling factorial of non-integer number")
     num = int(num)
@@ -56,11 +64,10 @@ def factorial(num):
     return product
 
 def sqrt(radicand, precision=PRECISION):
-    """! Calculates n-th root of a number
-    root is calculated with bisection method
-    @param radicand Root of this number is calculated
-    @param index The index of root. Implied value is 2 (square root)
-    @return The index-th root of radicand
+    """! Calculates square root of a number.
+    Root is calculated with Newton`s method.
+    @param radicand Square root of this number is calculated.
+    @return The square root of radicand.
     """
     oldApprox = 0
     newApprox = radicand
@@ -74,6 +81,11 @@ def sqrt(radicand, precision=PRECISION):
     return newApprox
 
 def intExponentiate(base, exponent):
+    """! Calculates an integer power of a number.
+    @param base Number to be exponentiated.
+    @param exponent The exponent of number.
+    @return Float product of exponentiation.
+    """
     if not float(exponent).is_integer():
         Exception("Cannot raise a number to the power of a negative number")
 
@@ -94,11 +106,11 @@ def intExponentiate(base, exponent):
     return result
 
 def exponentiate(base, exponent):
-    """! Calculates n-th power of a number
-    0 to the power of 0 is not defined
-    @param base  This is base for calculation
-    @param exponent The exponent of number. Exponent must be integer greater than 0
-    @return The n-th power of base number
+    """! Calculates float power of a number.
+    0 to the power of 0 is not defined.
+    @param base  This is positive base for the calculation.
+    @param exponent The exponent of a number.
+    @return The n-th power of base number.
     """
     if float(exponent).is_integer():
         num = int(base)
@@ -147,17 +159,18 @@ def exponentiate(base, exponent):
 
     return result
 
-def root(radicand, index=2):
-    """! Calculates n-th root of a number
-    root is calculated with bisection method
-    @param radicand Root of this number is calculated
-    @param index The index of root. Implied value is 2 (square root)
-    @return The index-th root of radicand
+def root(radicand, index = 2):
+    """! Calculates n-th root of a number.
+    @param radicand Root of this number is calculated.
+    @param index The index of root. Implied value is 2 (square root).
+    @return The index-th root of radicand.
     """
     return exponentiate(radicand, 1 / index)
 
 
 def absolute(x):
+    """! Returns absolute value of given number.
+    """
     if (x < 0):
         return -x
     else:
@@ -165,8 +178,10 @@ def absolute(x):
 
 
 def logarithm(argument, base=10, precision=PRECISION):
-    """! Calculates logarithm using bisection method
-
+    """! Calculates logarithm using bisection method.
+    @param argument Calculate logarithm of this number.
+    @param base Base of the logarithm.
+    @return Logarithm of given number in given base.
     """
     if argument <= 0 or base <=0:
         raise Exception('Outside of defined range')
@@ -201,11 +216,11 @@ def logarithm(argument, base=10, precision=PRECISION):
 
 
 def sine(num):
-    """! Calculates sine of num
-    function works with radians
-    sine is calculated with Taylor series
-    @param num  This is angle of which sine is calculated
-    @return The sine of num
+    """! Calculates sine of num.
+    Function works with radians.
+    Sine is calculated with Taylor series.
+    @param num  This is angle of which sine is calculated.
+    @return The sine of num.
     """
     angle = num % (2*PI)
     _sum = 0
@@ -219,11 +234,11 @@ def sine(num):
 
 
 def cosine(num):
-    """! Calculates cosine of num
-    function works with radians
-    cosine is calculated with Taylor series
-    @param num  This is angle of which cosine is calculated
-    @return The cosine of num
+    """! Calculates cosine of num.
+    Function works with radians.
+    Cosine is calculated with Taylor series.
+    @param num  This is angle of which cosine is calculated.
+    @return The cosine of num.
     """
     angle = num % (2 * PI)
     _sum = 1
@@ -237,11 +252,11 @@ def cosine(num):
 
 
 def tangent(num):
-    """! Calculates tangent of num
-    function works with radians
-    tangent is calculated as sine/cosine
-    @param num  This is angle of which sine is calculated
-    @return The tangent of num
+    """! Calculates tangent of num.
+    Function works with radians.
+    Tangent is calculated as sine/cosine.
+    @param num  This is angle of which sine is calculated.
+    @return The tangent of num.
     """
     if absolute(num) % (PI*2) == PI/2:
         raise Exception("Calling tangent of PI/2 results in dividing by zero")

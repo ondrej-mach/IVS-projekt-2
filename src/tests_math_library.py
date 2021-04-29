@@ -1,3 +1,8 @@
+"""! @file tests_math_library.py
+@brief Tests for math library
+@author xhnato00, xlanro00, xmacho12, xslivk03
+"""
+
 import math_library
 import unittest
 
