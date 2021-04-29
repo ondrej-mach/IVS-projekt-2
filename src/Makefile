@@ -38,6 +38,7 @@ pack: doc $(EXECUTABLE)
 clean:
 	rm -rf venv/ html/ latex/
 	rm -rf ../dist/ ../build/
+	rm -rf __pycache__
 
 # runs the test for math library
 test:
