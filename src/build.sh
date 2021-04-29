@@ -6,6 +6,7 @@ pyinstaller calculator.py \
     --distpath ../dist \
     --workpath ../build \
     --add-data='calculator.ui:.' \
+    --add-data='HelpWindow.ui:.' \
     --icon='icon.png' \
     --upx-dir=/usr/local/share/ \
     --onefile
